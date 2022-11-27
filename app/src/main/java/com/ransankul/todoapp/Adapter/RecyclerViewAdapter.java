@@ -83,6 +83,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                      DB.updateStatus(String.valueOf(++initialValue), todo);
                      holder.progressBar.setProgress(initialValue);
+                     holder.progressBar.setMax(finalvalue);
                      holder.current.setText(String.valueOf(initialValue));
                  }
                  else{
@@ -103,6 +104,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 else{
                     DB.updateStatus(String.valueOf(--initialValue), todo);
                     holder.progressBar.setProgress(initialValue);
+                    holder.progressBar.setMax(finalvalue);
                     holder.current.setText(String.valueOf(initialValue));
                 }
             }
