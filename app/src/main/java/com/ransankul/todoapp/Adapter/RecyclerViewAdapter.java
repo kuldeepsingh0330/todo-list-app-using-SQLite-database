@@ -80,11 +80,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                  int initialValue = Integer.parseInt(holder.current.getText().toString());
 
                  if(initialValue<finalvalue) {
-                     initialValue = initialValue + 1;
 
-                     DB.updateStatus(String.valueOf(initialValue), todo);
-                     Intent intent =new Intent(view.getContext(),MainActivity.class);
-                     view.getContext().startActivity(intent);
+                     DB.updateStatus(String.valueOf(++initialValue), todo);
+                     holder.progressBar.setProgress(initialValue);
+                     holder.current.setText(String.valueOf(initialValue));
                  }
                  else{
                      Toast.makeText(view.getContext(), "you complete the task", Toast.LENGTH_SHORT).show();
@@ -102,13 +101,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     Toast.makeText(view.getContext(), "please start the task", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    initialValue = initialValue - 1;
+                    DB.updateStatus(String.valueOf(--initialValue), todo);
                     holder.progressBar.setProgress(initialValue);
-                    holder.progressBar.setMax(finalvalue);
-
-                    DB.updateStatus(String.valueOf(initialValue), todo);
-                    Intent intent =new Intent(view.getContext(),MainActivity.class);
-                    view.getContext().startActivity(intent);
+                    holder.current.setText(String.valueOf(initialValue));
                 }
             }
         });
@@ -120,7 +115,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 ToDo item = toDoList.get(position);
                 DB.deleteTask(item.getId());
                 toDoList.remove(position);
-                notifyItemRemoved(position);
+                MainActivity.setLayout();
             }
         });
     }
