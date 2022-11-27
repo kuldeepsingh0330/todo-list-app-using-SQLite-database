@@ -25,10 +25,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private RecyclerView recyclerview;
-    private RecyclerViewAdapter recyclerViewAdapter;
-    private  ArrayList<ToDo> toDoArrayList;
-    private ArrayAdapter<String> arrayAdapter;
+    private static RecyclerView recyclerview;
+    private static RecyclerViewAdapter recyclerViewAdapter;
+    private static ArrayList<ToDo> toDoArrayList;
 
 
 
@@ -42,7 +41,22 @@ public class MainActivity extends AppCompatActivity {
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
-        dbHelper db = new dbHelper(MainActivity.this);
+        setLayout();
+
+        binding.floatAddTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(MainActivity.this,addTask.class);
+                startActivity(intent);
+            }
+        });
+
+
+    }
+
+
+    public static void setLayout(){
+        dbHelper db = new dbHelper(recyclerview.getContext());
 
         toDoArrayList = new ArrayList<>();
 
@@ -52,18 +66,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Collections.reverse(toDoArrayList);
-        recyclerViewAdapter  = new RecyclerViewAdapter(MainActivity.this, toDoArrayList);
+        recyclerViewAdapter  = new RecyclerViewAdapter(recyclerview.getContext(), toDoArrayList);
         recyclerview.setAdapter(recyclerViewAdapter);
-
-        Log.d("number", "Bro you have "+ db.getCount()+ " task in your database");
-
-
-        binding.floatAddTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(MainActivity.this,addTask.class);
-                startActivity(intent);
-            }
-        });
     }
+
 }
